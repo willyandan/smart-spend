@@ -16,7 +16,7 @@
 			</form>
 		</div>
 		<hr>
-		<p class="text-right">
+		<p class="text-right" v-if="totalDisp > 0">
 			<strong>Total:</strong>
 			<span>{{totalDisp | money}}</span>
 		</p>
@@ -30,8 +30,8 @@
 			</thead>
 			<tbody>
 				<tr v-for="disp in dispesas">
-					<td>{{disp.nome}}</td>
-					<td>{{disp.valor | money}}</td>
+					<td>{{disp.name}}</td>
+					<td>{{disp.value | money}}</td>
 					<td>
 						<button class="btn btn-outline-warning">Editar</button>
 						<button class="btn btn-outline-danger">Deletar</button>
@@ -55,11 +55,15 @@ export default {
     }
   },
 
+  created:function(){
+  	this.getDispesas()
+  },
+
   computed:{
   	totalDisp: function(){
   		let total = 0;
       	for (let i = 0; i < this.dispesas.length; i++){
-      		total += parseInt(this.dispesas[i].valor);
+      		total += parseInt(this.dispesas[i].value);
       	}
       	return total;
   	}
@@ -70,13 +74,32 @@ export default {
   		if(this.dispesa == "" || this.valor == "" || this.valor == 0){
   			return
   		}
-  		var disp = {
-  			nome:this.dispesa,
-  			valor:this.valor
+  		let disp = {
+  			name:this.dispesa,
+  			value:this.valor
   		}
-  		this.dispesas.push(disp)
-  		this.dispesa = ''
-  		this.valor = ''
+  		
+  		let vm = this
+  		axios.post('/api/dispesa/cadastrar', disp)
+  		.then(function (response) {
+  			vm.dispesa = ''
+  			vm.valor = ''
+  			vm.getDispesas()
+  		})
+  		.catch(function (error) {
+    		console.log(error);
+  		});
+  	},
+
+  	getDispesas(){
+  		const vm = this
+  		axios.get('/api/dispesa/')
+  		.then(function(response){
+  			vm.dispesas = response.data
+  		})
+  		.catch(function(error){
+  			console.log(error)
+  		})
   	}
   },
 
