@@ -20,4 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('dispesa')->group(function(){
 	Route::get('/', 'ExpenseController@get');
 	Route::post('cadastrar', 'ExpenseController@create');
+	Route::post('atualizar/{id}', 'ExpenseController@update');
+	Route::post('deletar/{id}', 'ExpenseController@delete');
 });

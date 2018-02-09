@@ -1,6 +1,6 @@
 @extends('layout.app')
-@section('title','Minhas Dispesas')
+@section('title','Minhas Despesas')
 @section('content')
-    <vc-home name="Minhas dispesas" lead="Apresentação das minhas dispesas"></vc-home>
+    <vc-home name="Minhas Despesas" lead="Apresentação das minhas despesas"></vc-home>
     <vc-dispesas></vc-dispesas>
 @endsection

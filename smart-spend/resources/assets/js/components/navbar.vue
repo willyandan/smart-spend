@@ -10,7 +10,7 @@
 	        		<a class="nav-link" href="#">Home</a>
 	      		</li>
 	      		<li class="nav-item">
-	        		<a class="nav-link" href="#">Minhas Dispesas</a>
+	        		<a class="nav-link" href="#">Minhas Despesas</a>
 	      		</li>
       			<li class="nav-item">
 	        		<a class="nav-link" href="#">Contas por mês</a>

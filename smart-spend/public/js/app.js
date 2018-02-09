@@ -43598,7 +43598,7 @@ var staticRenderFns = [
               _vm._v(" "),
               _c("li", { staticClass: "nav-item" }, [
                 _c("a", { staticClass: "nav-link", attrs: { href: "#" } }, [
-                  _vm._v("Minhas Dispesas")
+                  _vm._v("Minhas Despesas")
                 ])
               ]),
               _vm._v(" "),
@@ -43863,7 +43863,7 @@ exports = module.exports = __webpack_require__(3)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -43918,6 +43918,42 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
@@ -43927,7 +43963,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       dispesa: '',
       valor: '',
-      dispesas: []
+      dispesas: [],
+      editName: '',
+      editVaule: '',
+      editId: 0
     };
   },
 
@@ -43972,6 +44011,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).catch(function (error) {
         console.log(error);
       });
+    },
+    editDispesa: function editDispesa(disp) {
+      this.editVaule = disp.value;
+      this.editName = disp.name;
+      this.editId = disp.id;
+      $('#modal-edit').modal('show');
+    },
+    updateDispesa: function updateDispesa() {
+      var dataform = {
+        'name': this.editName,
+        'value': this.editVaule
+      };
+      var vm = this;
+      axios.post('/api/dispesa/atualizar/' + this.editId, dataform).then(function (response) {
+        if (response.data.message == "success") {
+          vm.getDispesas();
+        }
+        $('#modal-edit').modal('hide');
+      }).catch(function (error) {});
+    },
+    deleteDispensa: function deleteDispensa(id) {
+      var vm = this;
+      axios.post('/api/dispesa/deletar/' + id).then(function (response) {
+        if (response.data.message == "success") {
+          vm.getDispesas();
+        }
+      }).catch(function (error) {});
     }
   },
 
@@ -43993,100 +44059,234 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "well" }, [
-      _c(
-        "form",
-        {
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-              _vm.createDispesa()
+  return _c("div", [
+    _c("div", { staticClass: "container" }, [
+      _c("div", { staticClass: "well" }, [
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                _vm.createDispesa()
+              }
             }
-          }
-        },
-        [
-          _c("div", { staticClass: "form-row" }, [
-            _c("div", { staticClass: "form-group col" }, [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.dispesa,
-                    expression: "dispesa"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text", placeholder: "Dispesa" },
-                domProps: { value: _vm.dispesa },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+          },
+          [
+            _c("div", { staticClass: "form-row" }, [
+              _c("div", { staticClass: "form-group col" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.dispesa,
+                      expression: "dispesa"
                     }
-                    _vm.dispesa = $event.target.value
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "text", placeholder: "Despesa" },
+                  domProps: { value: _vm.dispesa },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.dispesa = $event.target.value
+                    }
                   }
-                }
-              })
+                })
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "form-group col" }, [
+                _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.valor,
+                      expression: "valor"
+                    }
+                  ],
+                  staticClass: "form-control",
+                  attrs: { type: "number", step: "0.01", placeholder: "Valor" },
+                  domProps: { value: _vm.valor },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.valor = $event.target.value
+                    }
+                  }
+                })
+              ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "form-group col" }, [
-              _c("input", {
-                directives: [
+            _vm._m(0)
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _vm.totalDisp > 0
+        ? _c("p", { staticClass: "text-right" }, [
+            _c("strong", [_vm._v("Total:")]),
+            _vm._v(" "),
+            _c("span", [_vm._v(_vm._s(_vm._f("money")(_vm.totalDisp)))])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c("table", { staticClass: "table" }, [
+        _vm._m(1),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.dispesas, function(disp) {
+            return _c("tr", [
+              _c("td", [_vm._v(_vm._s(disp.name))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(_vm._f("money")(disp.value)))]),
+              _vm._v(" "),
+              _c("td", [
+                _c(
+                  "button",
                   {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.valor,
-                    expression: "valor"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "number", step: "0.01", placeholder: "Valor" },
-                domProps: { value: _vm.valor },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+                    staticClass: "btn btn-outline-warning",
+                    on: {
+                      click: function($event) {
+                        _vm.editDispesa(disp)
+                      }
                     }
-                    _vm.valor = $event.target.value
-                  }
-                }
-              })
+                  },
+                  [_vm._v("Editar")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-outline-danger",
+                    on: {
+                      click: function($event) {
+                        _vm.deleteDispensa(disp.id)
+                      }
+                    }
+                  },
+                  [_vm._v("Deletar")]
+                )
+              ])
             ])
-          ]),
-          _vm._v(" "),
-          _vm._m(0)
-        ]
-      )
+          })
+        )
+      ])
     ]),
     _vm._v(" "),
-    _c("hr"),
-    _vm._v(" "),
-    _vm.totalDisp > 0
-      ? _c("p", { staticClass: "text-right" }, [
-          _c("strong", [_vm._v("Total:")]),
-          _vm._v(" "),
-          _c("span", [_vm._v(_vm._s(_vm._f("money")(_vm.totalDisp)))])
-        ])
-      : _vm._e(),
-    _vm._v(" "),
-    _c("table", { staticClass: "table" }, [
-      _vm._m(1),
-      _vm._v(" "),
-      _c(
-        "tbody",
-        _vm._l(_vm.dispesas, function(disp) {
-          return _c("tr", [
-            _c("td", [_vm._v(_vm._s(disp.name))]),
-            _vm._v(" "),
-            _c("td", [_vm._v(_vm._s(_vm._f("money")(disp.value)))]),
-            _vm._v(" "),
-            _vm._m(2, true)
-          ])
-        })
-      )
-    ])
+    _c(
+      "div",
+      {
+        staticClass: "modal",
+        attrs: { tabindex: "-1", id: "modal-edit", role: "dialog" }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog modal-lg", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _vm._m(2),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-body" }, [
+                _c("form", [
+                  _c("div", { staticClass: "row" }, [
+                    _c("div", { staticClass: "col" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Nome")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.editName,
+                              expression: "editName"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.editName },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.editName = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col" }, [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", [_vm._v("Valor")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.editVaule,
+                              expression: "editVaule"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.editVaule },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.editVaule = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ])
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("Fechar")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        _vm.updateDispesa()
+                      }
+                    }
+                  },
+                  [_vm._v("Salvar")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -44096,7 +44296,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("p", { staticClass: "text-right" }, [
       _c("button", { staticClass: "btn btn-success" }, [
-        _vm._v("Cadastrar dispesa")
+        _vm._v("Cadastrar Despesa")
       ])
     ])
   },
@@ -44106,7 +44306,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "thead-light" }, [
       _c("tr", [
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Dispesa")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Despesa")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Valor")]),
         _vm._v(" "),
@@ -44118,14 +44318,21 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("button", { staticClass: "btn btn-outline-warning" }, [
-        _vm._v("Editar")
-      ]),
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h5", { staticClass: "modal-title" }, [_vm._v("Editar Despesa")]),
       _vm._v(" "),
-      _c("button", { staticClass: "btn btn-outline-danger" }, [
-        _vm._v("Deletar")
-      ])
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: {
+            type: "button",
+            "data-dismiss": "modal",
+            "aria-label": "Close"
+          }
+        },
+        [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+      )
     ])
   }
 ]

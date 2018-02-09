@@ -10,7 +10,7 @@ class ExpenseController extends Controller
 
 	public function get()
 	{
-		return json_encode(expense::latest('updated_at')->get());
+		return json_encode(expense::latest()->get());
 	}
 
     public function create(Request $request)
@@ -21,8 +21,27 @@ class ExpenseController extends Controller
     		$disp->value = $request->value;
     		$disp->save();
     		return json_encode(['message' => 'success']);
-    	} catch (Exception $e) {
+    	} catch (\Exception $e) {
     		return json_encode(['message' => 'error']);
     	}
+    }
+
+    public function update($id, Request $request)
+    {
+        try {
+            $disp = expense::findOrFail($id);
+            $disp->name = $request->name;
+            $disp->value = $request->value;
+            $disp->save();
+            return json_encode(['message'=>'success']);   
+        } catch (\Exception $e) {
+            return $e->getError();
+        }
+    }
+
+    public function delete($id)
+    {
+        expense::destroy($id);
+        return json_encode(['message' => 'success']);
     }
 }
