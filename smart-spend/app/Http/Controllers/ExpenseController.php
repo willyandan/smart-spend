@@ -8,6 +8,11 @@ use App\expense;
 class ExpenseController extends Controller
 {
 
+    public function index()
+    {
+        return view('dispesas');
+    }
+
 	public function get()
 	{
 		return json_encode(expense::latest()->get());

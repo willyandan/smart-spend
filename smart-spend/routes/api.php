@@ -23,3 +23,7 @@ Route::prefix('dispesa')->group(function(){
 	Route::post('atualizar/{id}', 'ExpenseController@update');
 	Route::post('deletar/{id}', 'ExpenseController@delete');
 });
+
+Route::prefix('ganhos')->group(function(){
+	Route::post('cadastrar', 'WinningsController@create');
+});

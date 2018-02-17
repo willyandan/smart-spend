@@ -12,3 +12,5 @@
 */
 
 Route::get('/', 'LoginController@index');
+Route::get('/ganhos', 'WinningsController@index');
+Route::get('/despesas', 'ExpenseController@index');
